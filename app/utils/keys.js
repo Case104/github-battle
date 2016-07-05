@@ -1,5 +1,2 @@
-keys = {
-	var API_KEY = '',
-	var SECRET = ''
-}
-module.exports = keys;
+export const apiKey = ''
+export const secret = ''

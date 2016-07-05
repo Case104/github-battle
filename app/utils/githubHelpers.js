@@ -1,67 +1,48 @@
-var axios = require('axios');
+import axios from 'axios'
+// import { apiKey, secret} from 'keys.js'
 
-var id = 'CLIENT_ID';
-var sec = 'SECRET';
-var param = '?client_id=' + id + '&client_secret=' + sec;
+// const param = `?client_id=${apiKey}&client_secret=${secret}`;
 
-function getUserInfo(username) {
-	return axios.get('https://api.github.com/users/' + username)
+function getUserInfo(username = 'Case104') {
+	return axios.get(`https://api.github.com/users/${username}`)
 }
 
-function getRepos(username){
-	return axios.get('https://api.github.com/users/' + username + '/repos');
+function getRepos(username = 'Case104'){
+	return axios.get(`https://api.github.com/users/${username}/repos`);
 }
 
 function getTotalStars(repos){
-	return repos.data.reduce(function(prev, current){
-		return prev + current.stargazers_count
-	}, 0)
+	return repos.data.reduce((prev, current) => prev + current.stargazers_count, 0)
 }
 
-function getPlayersData(player){
-	return getRepos(player.login)
-		.then(getTotalStars)
-		.then(function(totalStars){
-			return {
-				followers: player.followers,
-				totalStars: totalStars
-			}
-		})
+async function getPlayersData({login, followers}){
+	try {
+		const repos = await getRepos(login)
+		const totalStars = await getTotalStars(repos)
+		return {
+			followers,
+			totalStars
+		}
+	} catch(error) {console.warn('Error in getPlayersData function', error)}
 }
 
 function calculateScores(players){
-	console.log(players);
 	return [
 		players[0].followers * 3 + players[0].totalStars,
 		players[1].followers * 3 + players[1].totalStars
-
 	]
 }
 
-var helpers = {
-	getPlayersInfo: function(players){
-		return axios.all(players.map(function(username){
-			return getUserInfo(username)
-		})).then(function(info){
-			return info.map(function(user){
-				return user.data;
-			})
-		}).catch(function(err){
-			console.warn('Error in getPlayersInfo', err);
-		})
-	},
+export async function getPlayersInfo (players) {
+	try {
+		const info = await Promise.all(players.map((username) => getUserInfo(username)))
+		return info.map((user) => user.data)
+	} catch(error) {console.warn('Error in getPlayersInfo', error)}
+}
 
-	battle: function(players){
-		var playerOneData = getPlayersData(players[0]);
-		var playerTwoData = getPlayersData(players[1]);
-
-		return axios.all([playerOneData, playerTwoData])
-			.then(calculateScores)
-			.catch(function(error){
-				console.warn('Error in github helpers battle', error)
-			})
-
-	}
-};
-
-module.exports = helpers;
+export async function battle (players) {
+	try {
+		const playersData = await Promise.all([getPlayersData(players[0]), getPlayersData(players[1])])
+		return await calculateScores(playersData)
+	} catch(error) {console.warn('Error in battle function', error)}
+}
