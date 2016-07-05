@@ -18,14 +18,14 @@ function StartOver() {
 
 function Tie() {
 	return (
-	<MainContainer>
-		<h1>It is a tie!</h1>
-		<StartOver />
-	</MainContainer>
-)
+		<MainContainer>
+			<h1>It is a tie!</h1>
+			<StartOver />
+		</MainContainer>
+	)
 }
 
-function Results({isLoading, scores, playersInfo}){
+function Results({isLoading, scores, playersInfo}) {
 
 	if (isLoading === true){
 		return <Loading />
@@ -57,7 +57,7 @@ function Results({isLoading, scores, playersInfo}){
 Results.propTypes = {
 	isLoading: PropTypes.bool.isRequired,
 	playersInfo: PropTypes.array.isRequired,
-	// scores: PropTypes.array.isRequired
+	scores: PropTypes.array.isRequired
 }
 
 export default Results

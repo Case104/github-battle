@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import MainContainer from './MainContainer'
 
-function Home() {}
+function Home() {
 	return (
 		<MainContainer>
 			<h1>Github Battle</h1>

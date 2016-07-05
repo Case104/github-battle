@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import '../main.css'
 
-const Main = React.createClass({
+class Main extends Component {
 	render() {
 		return (
 			<div className='main-container'>
@@ -15,6 +15,6 @@ const Main = React.createClass({
 			</div>
 		)
 	}
-})
+}
 
 export default Main
