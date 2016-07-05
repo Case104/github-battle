@@ -17,25 +17,14 @@ const styles = {
 	}
 };
 
-const Loading = React.createClass({
-	propTypes: {
-		text: PropTypes.string,
-		speed: PropTypes.number
-	},
-
-	getDefaultProps () {
-		return {
-			text: 'Loading',
-			speed: 300
-		}
-	},
-
-	getInitialState () {
-		this.originalText = this.props.text;
-		return {
+class Loading extends Component {
+	constructor(props){
+		super()
+		this.originalText = props.text
+		this.state = {
 			text: this.originalText
 		}
-	},
+	}
 
 	componentDidMount () {
 		const stopper = this.originalText + '...'
@@ -50,11 +39,11 @@ const Loading = React.createClass({
 				})
 			}
 		}, this.props.speed)
-	},
+	}
 
 	componentWillUnmount () {
 		clearInterval(this.interval);
-	},
+	}
 	
 	render () {
 		return (
@@ -63,7 +52,16 @@ const Loading = React.createClass({
 			</div>
 		)
 	}
+}
 
-})
+Loading.propTypes = {
+	text: PropTypes.string,
+	speed: PropTypes.number
+}
+
+Loading.defaultProps = {
+	text: 'Loading',
+	speed: 300
+}
 
 export default Loading

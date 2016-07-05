@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import { transparentBg } from '../styles'
 
-
 function Prompt (props) {
 	return(
 		<div className='jumbotron col-sm-6 col-sm-offset-3 text-center'style={transparentBg}>

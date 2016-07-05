@@ -29,7 +29,6 @@ class ResultsContainer extends Component {
 				scores={this.state.scores} />
 		);
 	}
-
-};
+}
 
 export default ResultsContainer
